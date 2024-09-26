@@ -1,67 +1,75 @@
-namespace DesafioFundamentos.Models
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SistemaParaEstacionamento.Models
 {
     public class Estacionamento
     {
+        private List<string> lista = new List<string>();
         private decimal precoInicial = 0;
         private decimal precoPorHora = 0;
-        private List<string> veiculos = new List<string>();
 
-        public Estacionamento(decimal precoInicial, decimal precoPorHora)
+        public Estacionamento()
         {
-            this.precoInicial = precoInicial;
-            this.precoPorHora = precoPorHora;
+            Console.WriteLine("Seja bem vindo ao sitema de estacionamento!");
+            Console.WriteLine("\nDigite o preço inicial: ");
+            precoInicial = Convert.ToDecimal(Console.ReadLine());
+            Console.WriteLine("\nDigite o preço por hora: ");
+            precoPorHora = Convert.ToDecimal(Console.ReadLine());
+
+
+
+
         }
 
-        public void AdicionarVeiculo()
-        {
-            // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
-            // *IMPLEMENTE AQUI*
-            Console.WriteLine("Digite a placa do veículo para estacionar:");
+
+        public void adicionarVeiculo() {
+            Console.WriteLine("\nDigite a placa do veículo: ");
+            string veiculo = Console.ReadLine();
+            lista.Add(veiculo);
         }
 
-        public void RemoverVeiculo()
-        {
-            Console.WriteLine("Digite a placa do veículo para remover:");
-
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string placa = "";
-
-            // Verifica se o veículo existe
-            if (veiculos.Any(x => x.ToUpper() == placa.ToUpper()))
+        public void listarVeiculos(){
+            Console.WriteLine("\nVeículos estacionados:");
+            int contador = 1;
+            foreach (string item in lista)
             {
-                Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
-
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
-                int horas = 0;
-                decimal valorTotal = 0; 
-
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
-
-                Console.WriteLine($"O veículo {placa} foi removido e o preço total foi de: R$ {valorTotal}");
+                Console.WriteLine($"{contador} - {item}");
+                contador++;
+                
             }
-            else
-            {
-                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+            if(lista.Count==0){
+                Console.WriteLine("\n Não há veículos estacionados.");
+
             }
         }
 
-        public void ListarVeiculos()
-        {
-            // Verifica se há veículos no estacionamento
-            if (veiculos.Any())
-            {
-                Console.WriteLine("Os veículos estacionados são:");
-                // TODO: Realizar um laço de repetição, exibindo os veículos estacionados
-                // *IMPLEMENTE AQUI*
+        public void removerVeículos(){
+            Console.WriteLine("\nDigite o veículo a remover:");
+            string remover = Console.ReadLine();
+            bool encontrado = false;
+
+            for(int i = 0; i < lista.Count; i++){
+                if (lista[i] == remover){
+                    encontrado = true;
+                    lista.RemoveAt(i);
+                    Console.WriteLine("\nDigite quantas horas o veículo ficou estacionado:");
+                    int horas = Convert.ToInt32(Console.ReadLine());
+                    decimal precoTotal = precoInicial + precoPorHora * horas;
+                    Console.WriteLine($"\nO veículo {remover} foi removido e o preço total foi de: R${precoTotal}");
+                    break;
+                }       
             }
-            else
-            {
-                Console.WriteLine("Não há veículos estacionados.");
-            }
+            if(encontrado == false) {
+                    Console.WriteLine("\nVeículo não encontrado!");
+                }
+
+            
+            
+
+
         }
     }
 }
